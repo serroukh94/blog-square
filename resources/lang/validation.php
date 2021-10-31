@@ -1,6 +1,7 @@
 <?php 
  
-
+ // les labels personalisées
+             
 return[
     'email' => 'L\'adresse e-mail',     // par exemple si jamais un champ a le nom 'email' donc ce que je veux dans le message d'erreur il aparaissent l'adresse e-mail.
     'name' => 'Le nom complet',         

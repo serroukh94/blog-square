@@ -1,4 +1,4 @@
-<?php declare(strict_type = 1);
+<?php 
 
 namespace Ben\Foundation;
 
@@ -24,7 +24,7 @@ class Authentication
         return $user && password_verify($password, $user->password);   // verifier si user n'est pas 'null' et egalement verifier si le mdp associes a cette utilisateur est egale a celui qui est en BDD dans ma table users. 
     }
 
-    public static function authenticate(int $id): void    
+    public static function authenticate(int $id): void      // le methode 'authenticate' permet d'ajouter une variable de session pour venir authentifier au niveau de session mon utilisateur.
     {
         Session::add(static::SESSION_ID, $id);
     }
@@ -44,3 +44,5 @@ class Authentication
         return User::find(static::id());     
     }
 }
+
+?>

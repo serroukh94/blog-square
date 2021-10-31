@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription | Square</title>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="antialiased">
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+      <div class="flex flex-col items-center">
+        <a href="../index.html" class="transform hover:rotate-90 transition text-indigo-600">
+          <svg class="fill-current w-12 h-12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill-rule="evenodd"/>
+          </svg>
+        </a>
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Rejoignez-nous !
+        </h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Déjà inscrit(e)?
+          <a href="login.html" class="font-medium text-indigo-600 hover:text-indigo-500">
+            Connectez-vous
+          </a>
+        </p>
+      </div>
+
+     {% if errors %}        <!-- (% symbole de modulo -> de division c'est pour recuperer le reste) on utiliser la donction errors pour recuperer ce quelle retourne, donc si jamais on a un tableau avec du contenue pour les erreurs et bien ca veut dire on affichera ce blog   --> 
+      <div class="rounded-md bg-red-50 p-4 text-sm text-red-700">
+        <ul class="list-disc pl-5 space-y-1">
+          {% for errors in errors %}    <!--on a suprimer une de "li" et donc la on va pouvoir utiliser l'equivalent de Foreach avec du twig et donc ca va etre un For, on indiquer le nom "error" de la variable dans laquelle on souhaite stocker l'element de tableau qu'on va recuperer, apres on indiquer "in" et ensuite on a indiquer la source de tableau en question, donc nous le tableau on recupere avec la fonction errors  -->
+          <li>
+            {{ error }}   
+          </li>
+
+         {% endfor %}
+          
+        </ul>
+      </div>
+
+      {% endif %}
+
+      <form action="{{ route('register.request') }}" method="POST" class="flex flex-col space-y-6" novalidate>  <!-- on deja creer la fonction route qui me permet de renseigner le nom de la route pour la quelle on souhaite recuperer l'URI-->
+        <div class="rounded-md shadow-sm -space-y-px">
+          {{csrf_field() | raw }}    <!-- a partir du moment on va faire des requetes 'POST', 'PUT', 'delete', ..., on va devoir renseigner un champ csrf pour ne pas etre affecter par la faille csrf -->
+                                     <!-- les doubles accolades automatiquement par default attribue la fonction html specialchars a l'element qu'on souhaite venir afficher -->
+          <input name="name" type="text" value="{{ old('name') }}" placeholder="Nom complet" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                                                 <!--on a deja creer une fonction  pour twig, pour recuperer les anciennes valeurs des champs de nos formulaires si jamais  on recupere des valeurs qui avait etait precedemment entre dans la requette precedente -->                           
+          <input name="email" type="email" value="{{ old('email') }}" placeholder="Adresse e-mail" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          <input name="password" type="password" placeholder="Mot de passe" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          <input name="password_confirmation" type="password" placeholder="Confirmation du mot de passe" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+        </div>
+        <button type="submit" class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Inscription
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
