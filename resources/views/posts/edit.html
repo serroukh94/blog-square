@@ -7,42 +7,15 @@
   <title>Modifier un post | Square</title>
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-  <link rel="stylesheet" href="../dist/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="antialiased">
-  <header x-data="{ nav: false }" x-cloak class="bg-indigo-500 py-6 text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
-      <div class="flex justify-between">
-        <a href="../index.html" class="transform hover:rotate-90 transition">
-          <svg class="fill-current w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill-rule="evenodd"/>
-          </svg>
-        </a>
-        <button @click="nav = !nav">
-          <svg x-show="!nav" class="stroke-current w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 6h16M4 12h8m-8 6h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <svg x-show="nav" class="stroke-current w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <nav x-show="nav" class="self-end mt-6 text-xl leading-none text-right">
-        <ul class="space-y-8">
-          <li><a href="../home.html" class="hover:underline">Mon compte</a></li>
-          <li><a href="create.html" class="hover:underline">Créer un post</a></li>
-          <li>
-            <a href="" @click="event.preventDefault();document.getElementById('logout-form').submit();" class="hover:underline">Déconnexion</a>
-            <form method="POST" action="" id="logout-form" class="hidden">
-            </form>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  {% include "includes/header.html" %}
   <div class="container mx-auto px-4 md:px-6 lg:px-8 pb-16 pt-12 sm:pt-16">
-    <form action="" method="POST" class="space-y-8 divide-y divide-gray-200" novalidate>
+    <form action="{{ route('posts.update', {slug: post.slug}) }}" method="POST" class="space-y-8 divide-y divide-gray-200" novalidate>
       <div>
+        {{ csrf_field()|raw }}
+        {{ method('PATCH')|raw }}
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Modifier un post
         </h3>
@@ -54,9 +27,19 @@
             <label for="title" class="block text-sm font-medium text-gray-700">
               Titre
             </label>
-            <div class="mt-1">
-              <input id="title" name="title" type="text" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+            <div class="mt-1 {% if errors('title') %}relative rounded-md shadow-sm{% endif %}">
+              <input id="title" name="title" value="{{ old('title', post.title) }}" type="text" class="block w-full sm:text-sm rounded-md shadow-sm {% if errors('title') %}border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500{% else %}focus:ring-indigo-500 focus:border-indigo-500 border-gray-300{% endif %}">
+              {% if errors('title') %}
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              {% endif %}
             </div>
+            {% if errors('title') %}
+            <p class="mt-2 text-sm text-red-600">{{ errors('title')[0] }}</p>
+            {% endif %}
           </div>
           
           <div class="sm:col-span-6">
@@ -64,8 +47,11 @@
               Corps
             </label>
             <div class="mt-1">
-              <textarea id="post" name="post" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+              <textarea id="post" name="post" rows="3" class="block w-full sm:text-sm rounded-md shadow-sm {% if errors('post') %}border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500{% else %}focus:ring-indigo-500 focus:border-indigo-500 border-gray-300{% endif %}">{{ old('post', post.body) }}</textarea>
             </div>
+            {% if errors('post') %}
+            <p class="mt-2 text-sm text-red-600">{{ errors('post')[0] }}</p>
+            {% endif %}
           </div>
         </div>
       </div>

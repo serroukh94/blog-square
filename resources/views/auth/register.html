@@ -12,7 +12,7 @@
   <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
       <div class="flex flex-col items-center">
-        <a href="../index.html" class="transform hover:rotate-90 transition text-indigo-600">
+        <a href="{{ route ('index') }}" class="transform hover:rotate-90 transition text-indigo-600">
           <svg class="fill-current w-12 h-12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 0h24v24H0z" fill-rule="evenodd"/>
           </svg>
@@ -22,7 +22,7 @@
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
           Déjà inscrit(e)?
-          <a href="login.html" class="font-medium text-indigo-600 hover:text-indigo-500">
+          <a href="{{ route ('login.form') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
             Connectez-vous
           </a>
         </p>

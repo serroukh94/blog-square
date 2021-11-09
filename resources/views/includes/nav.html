@@ -1,0 +1,21 @@
+<nav x-show="nav" class="self-end mt-6 text-xl leading-none text-right">
+    <ul class="space-y-8">
+        {% if auth().check()  %}           <!-- on va faire une verification qui va me permettre de regarder si l'utilisateur est authentifier ou pas si jamais il est, on va lui afficher les differents liens, pour aller sur son 'compte', 'creer un post'  -->
+         <!-- avec twig pour acceder a une methode ou une propriete ou a la clef d'un tableau on utilise un point.-->
+       <li><a href="{{ route('home')}}" class="hover:underline">Mon compte</a></li>
+       {% if auth().checkIsAdmin() %} 
+       <li><a href="{{route('posts.create')}}" class="hover:underline">Créer un post</a></li>
+       {% endif %}
+       <li>
+        <a href="{{route('logout')}}" @click="event.preventDefault();document.getElementById('logout-form').submit();" class="hover:underline">Déconnexion</a>
+        <form method="POST" action="{{route('logout')}}" id="logout-form" class="hidden">
+            {{csrf_field() |raw }}
+        </form>
+      </li>
+      {% else %}
+      <li><a href="{{route('login.form')}}" class="hover:underline">connexion</a></li>
+      <li><a href="{{route('register.form')}}" class="hover:underline">inscription</a></li>
+
+      {% endif %}
+    </ul>
+  </nav>

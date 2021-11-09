@@ -4,41 +4,18 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lorem ipsum dolor sit amet consectetur adipisicing. | Square</title>
+  <title>{{ post.title }} | Square</title>
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-  <link rel="stylesheet" href="../dist/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="antialiased">
-  <header x-data="{ nav: false }" x-cloak class="bg-indigo-500 py-6 text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
-      <div class="flex justify-between">
-        <a href="../index.html" class="transform hover:rotate-90 transition">
-          <svg class="fill-current w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill-rule="evenodd"/>
-          </svg>
-        </a>
-        <button @click="nav = !nav">
-          <svg x-show="!nav" class="stroke-current w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 6h16M4 12h8m-8 6h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <svg x-show="nav" class="stroke-current w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <nav x-show="nav" class="self-end mt-6 text-xl leading-none text-right">
-        <ul class="space-y-8">
-          <li><a class="hover:underline" href="../auth/login.html">Connexion</a></li>
-          <li><a class="hover:underline" href="../auth/register.html">Inscription</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  {% include "includes/header.html" %}
   <div class="md:container mx-auto md:px-6 lg:px-8 pb-16 md:pt-16 lg:w-2/3">
-    
+
+    {% if status() %}   <!-- pour verifier si on a bien un message de statu ou pas-->
     <div class="md:mb-6 rounded-md bg-indigo-50 p-4">
-      <div class="flex">
+      <div class="flex"> 
         <div class="flex-shrink-0">
           <svg class="h-5 w-5 text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -46,11 +23,13 @@
         </div>
         <div class="ml-3">
           <p class="text-sm font-medium text-indigo-800">
-            Commentaire publié !
+            {{ status() }}  <!-- l'affichage de contenu-->
           </p>
         </div>
       </div>
     </div>
+    {% endif %}
+    {% if errors('comment') %}
     <div class="md:mb-6 rounded-md bg-red-50 p-4">
       <div class="flex">
         <div class="flex-shrink-0">
@@ -60,17 +39,19 @@
         </div>
         <div class="ml-3">
           <p class="text-sm font-medium text-red-800">
-            Vous devez indiquer un commentaire.
+            {{ errors('comment')[0] }}
           </p>
         </div>
       </div>
     </div>
-    
+    {% endif %}
+
     <article>
-      <img class="w-full" src="../img/pancakes.png" alt="pancakes.png">
+      <img class="w-full" src="/img/{{ post.img }}" alt="{{ post.img }}">
       <div class="px-4 sm:px-6 md:px-0">
+        {% if auth().checkIsAdmin() %}
         <div x-data="{ modal: false }" x-cloak class="flex space-x-4 mt-6">
-          <a href="edit.html" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <a href="{{ route('posts.edit', {slug: post.slug}) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Modifier le post
           </a>
           <button @click="modal = true" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -126,70 +107,64 @@
                     Annuler
                   </button>
                 </div>
-                <form method="POST" action="" id="delete-form" class="hidden">
+                <form method="POST" action="{{ route('posts.delete', {slug: post.slug}) }}" id="delete-form" class="hidden">
+                  {{ csrf_field()|raw }}
+                  {{ method('DELETE')|raw }}
                 </form>
               </div>
             </div>
           </div>
         </div>
-        
-        <time datetime="" class="block mt-6 font-normal text-sm text-gray-700">
-          Publié le 18/02/2021 à 10:31
+        {% endif %}
+        <time datetime="{{ post.created_at }}" class="block mt-6 font-normal text-sm text-gray-700">
+          Publié le {{ post.created_at|date('d/m/Y à H:i') }}
         </time>
         <h1 class="mt-6 text-4xl font-bold text-gray-900 sm:leading-normal">
-          Lorem ipsum dolor sit amet consectetur adipisicing.
+          {{ post.title }}
         </h1>
         <ul class="mt-6 flex space-x-8 font-bold text-sm text-gray-700">
           <li class="flex items-center leading-none">
             <svg class="stroke-current w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="mb-px ml-1">25</span>
+            <span class="mb-px ml-1">{{ post.comments_count }}</span>
           </li>
           <li class="flex items-center leading-none">
             <svg class="stroke-current w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="mb-px ml-1">6 minutes</span>
+            <span class="mb-px ml-1">{{ post.reading_time }} minutes</span>
           </li>
         </ul>
         <p class="mt-6 text-lg lg:text-xl leading-loose lg:leading-loose text-gray-700">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis mollitia totam obcaecati, possimus modi nulla! Est asperiores, tempore commodi accusamus alias repudiandae iste incidunt hic suscipit quae quia pariatur rerum dignissimos facilis minus culpa, voluptatem, harum delectus voluptate. Deserunt harum accusantium natus atque delectus quidem, libero quaerat, repudiandae vitae similique soluta incidunt neque repellendus iste, veritatis praesentium reiciendis. Vel similique repellat culpa illum iusto accusamus laudantium repudiandae cumque doloremque debitis aperiam aliquam rem modi obcaecati, ad repellendus ipsum cum, pariatur quod. Numquam, quis? Molestias quos minus est voluptatem. Voluptas accusamus adipisci voluptate laborum dolore? Doloremque, incidunt omnis?<br>
-          Voluptate perspiciatis consequuntur fugiat exercitationem, sunt facilis quisquam officia sint aut accusamus at iure natus! Adipisci ullam optio illo consectetur quisquam natus a porro in beatae. Omnis neque sunt quasi voluptatibus, nemo suscipit necessitatibus ipsa harum molestiae vel debitis ipsam laboriosam accusantium incidunt optio quas quae quo maiores dicta consequatur dolore! Similique quaerat eos excepturi ratione ipsa eaque. Laboriosam voluptas delectus impedit, voluptate ipsa consequuntur quas quidem ut a id, blanditiis illum harum nulla magni esse earum alias provident voluptatibus hic cumque non expedita dolores tenetur? Iusto exercitationem odit, explicabo rerum quibusdam libero assumenda repellat magni aliquid iste eaque iure ipsum possimus, provident, dignissimos accusantium? Eius at voluptatibus suscipit commodi quam, accusamus veritatis vitae reprehenderit veniam aliquam nobis quo.<br>
-          Veniam illum a soluta, sint quo, numquam corrupti, officiis voluptate saepe facilis consequuntur praesentium quidem. Vero repudiandae voluptate eius aperiam explicabo laboriosam, officiis nam delectus facere, in sint assumenda doloremque quidem a alias similique tenetur natus nesciunt doloribus? Voluptatem minima eligendi nostrum corporis eius iure alias! Laborum dicta unde natus at quos esse? Commodi impedit veritatis, in soluta iusto molestiae omnis veniam natus explicabo quasi iste accusantium magnam at unde enim. Autem, molestiae laboriosam? Repudiandae, assumenda ea laborum obcaecati nisi consectetur commodi iure facere soluta dolores ipsum nam recusandae at aliquid consequuntur. Labore quae consequatur non at, libero quas explicabo dolorum nemo, quos doloremque nostrum aperiam dolores alias sequi in blanditiis repellendus inventore similique iure perspiciatis provident officiis sed. Rerum obcaecati quas amet deserunt.
+          {{ post.body|nl2br }}
         </p>
       </div>
     </article>
     <div class="mt-10 sm:mt-14 px-4 sm:px-6 md:px-0">
-      <hr class="border-gray-100">
-      <form method="POST" action="" novalidate>
-        <input type="text" name="comment" placeholder="Écrivez votre commentaire et tapez sur ↵" class="w-full h-14 px-6 border-none focus:outline-none focus:ring-0 bg-gray-100 rounded-full">   
+      {% if auth().check() %}
+      <form method="POST" action="{{ route('posts.comment', {slug: post.slug}) }}" novalidate>
+        {{ csrf_field()|raw }}
+        <input type="text" name="comment" value="{{ old('comment') }}" placeholder="Écrivez votre commentaire et tapez sur ↵" class="w-full h-14 px-6 border-none focus:outline-none focus:ring-0 bg-gray-100 rounded-full">   
       </form>
+      {% else %}
+      <hr class="border-gray-100">
+      {% endif %}
       <div class="mt-10 sm:mt-14 space-y-8">
+        {% for comment in post.comments %}
         <div class="flex space-x-3">
-          <img src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+          <img src="{{ gravatar (comment.user.email) }}" alt="{{ gravatar (comment.user.email) }}" class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
           <div>
             <p class="text-gray-800">
-              <strong class="font-bold text-gray-900">Steven Sil</strong>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In praesentium tenetur, ut nulla quaerat sequi. Lorem ipsum dolor sit amet consectetur adipisicing elit. In deserunt deleniti illum. Lorem ipsum dolor sit amet.
+              <strong class="font-bold text-gray-900">{{ comment.user.name }}</strong>
+              {{ comment.body }}
             </p>
-            <time datetime="" class="mt-0.5 text-sm text-gray-500">
-              18/02/2021 à 10:31
+            <time datetime="{{ comment.created_at }}" class="mt-0.5 text-sm text-gray-500">
+              {{ comment.created_at|date('d/m/Y à H:i') }}
             </time>
           </div>
         </div>
-        <div class="flex space-x-3">
-          <img src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
-          <div>
-            <p class="text-gray-800">
-              <strong class="font-bold text-gray-900">Steven Sil</strong>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In praesentium tenetur, ut nulla quaerat sequi. Lorem ipsum dolor sit amet consectetur adipisicing elit. In deserunt deleniti illum. Lorem ipsum dolor sit amet.
-            </p>
-            <time datetime="" class="mt-0.5 text-sm text-gray-500">
-              18/02/2021 à 10:31
-            </time>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </div>

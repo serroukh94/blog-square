@@ -1,7 +1,8 @@
-<?php 
+<?php declare(strict_types = 1);
 
-// on va d'abord creer toutes les fontions qu'on voudra rendre disponible au niveau de mes templates pour pouvoir generer mes vue html et ensuite on va les ajouter en second temp a twig pour l'indiquer du coup que tu peut utiliser ces differents fonctions 
+// on va d'abord creer toutes les fontions qu'on voudra rendre disponible au niveau de mes templates pour pouvoir generer mes vue html et ensuite on va les ajouter en second temp a twig pour l'indiquer du coup qu'on peut utiliser ces differents fonctions 
 
+use Gravatar\Gravatar;
 use Ben\Foundation\Authentication;
 use Ben\Foundation\Router\Router;
 use Ben\Foundation\Session;
@@ -27,7 +28,7 @@ if (!function_exists('errors')) {             // grace a la fonction errors je p
         $errors = Session::getFlash(Session::ERRORS);   // si jamais des erreur existe et sont present dans cette requete, car la precedente contenue des erreurs et bien du coup je vais les recuperer 
         if ($field) {
             return $errors[$field] ?? null;    // si jamais il ny a pas d'erreur qui existe et bien  je vais recuperer la valeur 'null'
-        }              // donc si je recupere 'null' il ny a pas d'erreur et si je recupere  une valeur equivalente a 'true' ca veyt dire que j'ai des erreurs 
+        }              // donc si je recupere 'null' il ny a pas d'erreur et si je recupere  une valeur equivalente a 'true' ca veut dire que j'ai des erreurs 
         return $errors;
     }
 }
@@ -60,4 +61,12 @@ if (!function_exists('old')) {     // fonction 'old' pour recuperer les ancienne
     }
 }
 
-?>
+
+if (!function_exists('gravatar')) {
+    function gravatar(string $email): string   //  cette fonction en lui passera une adresse email 
+    {
+        $gravatar = new Gravatar();
+        return $gravatar->avatar($email);
+    }
+}
+
