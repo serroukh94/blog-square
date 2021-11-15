@@ -8,7 +8,9 @@ use Ben\Foundation\View;
 
 class MailController extends AbstractController { 
    
-            
+    public function EnvoiMail(){
+        
+    }
         
     
 }
