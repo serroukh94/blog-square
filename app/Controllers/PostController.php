@@ -26,7 +26,7 @@ class PostController extends AbstractController  //  c'est une classe parent, do
     public function show(string $slug): void
     {
         try {
-            $post = Post::withCount('comments')->where('slug', $slug)->firstOrFail();
+            $post = Post::withCount('comments')->where('slug', $slug)->firstOrFail(); // on va recuperer pour le post le nombre des commentaires 
         } catch (ModelNotFoundException) {
             HttpException::render();
         }
@@ -55,10 +55,10 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             $this->redirect('posts.show', ['slug' => $slug]);
         }
 
-        Comment::create([
-            'body' => $_POST['comment'],
-            'user_id' => Auth::id(),
-            'post_id' => $post->id,
+        Comment::create([           // pour creer notre nouveau commentaire
+            'body' => $_POST['comment'],   // on a indiquer POST comment 
+            'user_id' => Auth::id(),      // on utiliser notre classe auth et sa methode id pour recuperer l'identifiant 
+            'post_id' => $post->id,       
         ]);
 
         Session::addFlash(Session::STATUS, 'Votre commentaire a été publié !');
@@ -143,7 +143,7 @@ class PostController extends AbstractController  //  c'est une classe parent, do
     // Modification d'un post 
     public function edit(string $slug): void   
     {
-        if (!Auth::checkIsAdmin()) {
+        if (!Auth::check()) {
             $this->redirect('login.form');
         }
 
@@ -160,7 +160,7 @@ class PostController extends AbstractController  //  c'est une classe parent, do
 
     public function update(string $slug): void
     {
-        if (!Auth::checkIsAdmin()) {
+        if (!Auth::check()) {
             $this->redirect('login.form');
         }
 

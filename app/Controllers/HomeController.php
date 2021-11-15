@@ -2,7 +2,7 @@
 
 namespace App\Controllers;   
 
-//export mes class
+// mes class
 use Ben\Foundation\AbstractController;   
 use Ben\Foundation\Authentication as Auth;
 use Ben\Foundation\Session;

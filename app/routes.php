@@ -15,6 +15,7 @@ return [
     'login.form'       => Route::get('/connexion', [AuthController::class, 'loginForm']),
     'login.request'    => Route::post('/connexion', [AuthController::class, 'login']),
     'logout'           => Route::post('/deconnexion', [AuthController::class, 'logout']),
+    
            
            // Espace membre
     'home'               => Route::get('/compte', [HomeController::class, 'index']),  // cette route s'appele 'home' ca sera une route qui utilise la methode httpGet avec URI /compte et ca va se passe dans le HomeController, et la methode ca sera index puisque c la page d'accueil de mon espace membre 
@@ -31,5 +32,7 @@ return [
      'posts.comment' => Route::post('/posts/{slug}', [PostController::class, 'comment']),      
      'posts.delete' => Route::delete('/posts/{slug}', [PostController::class, 'delete']),      
      'posts.edit' => Route::get('/posts/{slug}/modifier', [PostController::class, 'edit']),      
-     'posts.update' => Route::patch('/posts/{slug}/modifier', [PostController::class, 'update'])          
+     'posts.update' => Route::patch('/posts/{slug}/modifier', [PostController::class, 'update'])      
+     
+     
 ];

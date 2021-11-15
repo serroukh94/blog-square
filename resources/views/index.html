@@ -6,11 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Square</title>
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/public/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="antialiased">
+
+  
+
+
   <header x-data="{ nav: false }" x-cloak class="bg-indigo-500 pt-8 lg:pt-12 pb-16 text-white">
+    
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
       <div class="flex justify-between">
         <a href="{{ route('index') }}" class="transform hover:rotate-90 transition">
@@ -28,16 +35,77 @@
         </button>
       </div>
       {% include "includes/nav.html" %}
-      {% if posts[0] %}
+      
       <h1 class="mt-28 lg:mt-36 text-2xl sm:text-3xl xl:text-5xl xl:leading-tight lg:text-center font-bold">
-        {{ posts[0].title }}
+        
+          Ben Tama Serroukh Mohamed, Un développeur d'avenir.
+          
       </h1>
-      <a href="{{ route('posts.show', {slug: posts[0].slug}) }}" class="self-center mt-24 lg:mt-32 block py-4 px-7 lg:px-9 lg:text-lg leading-none border border-white hover:bg-white hover:text-indigo-800 transition">
-        Lire l’article
+      
+      
+      <a href="/pdf/CV_Ben_Tama.pdf" class="self-center mt-24 lg:mt-32 block py-4 px-7 lg:px-9 lg:text-lg leading-none border border-white hover:bg-white hover:text-indigo-800 transition">
+        
+        <img src="/img/photo-de-profil.jpeg" alt="Ma photo" height="181" width="181" >
+        
       </a>
-      {% endif %}
+      <h2 class="mt-28 lg:mt-36 text-xl sm:text-xl xl:text-xl xl:leading-tight lg:text-center font-bold">
+         Retrouvant mon CV en cliquant  sur ma photo au-dessus!
+      </h2>
+
+      
+      
+      
+
+      
+
+      
+
+
     </div>
   </header>
+
+  
+
+  <section>
+    
+    <div class="container list-inline text-center">
+      <div class="d-flex justify-content-center">
+          <div class="col-8 m-4">
+              <form action="{{ route('index') }}" method="POST">
+                  <div class="form-group">
+                      <div class="text-center">
+                        <h2 class="mt-28 lg:mt-36 text-xl sm:text-xl xl:text-xl xl:leading-tight lg:text-center font-bold">
+                          Contact
+                       </h2>
+                      </div>
+                      <div class="d-flex">
+                        
+
+
+                        <input type="text" name="surname" placeholder="Nom" autocomplete="off" class="form-control"/>
+                          <input type="text" name="firstname" placeholder="Prénom" autocomplete="off" class="form-control"/>
+
+                      </div>
+                      <br/>
+                      
+                      
+                      <input type="email" name="email" placeholder="Email" autocomplete="off" class="form-control"/>
+                      <br/> 
+                    
+                      <textarea rows="10" name="message" placeholder="Votre message" class="form-control"></textarea>
+                      <br/> 
+                      <button type="submit" value="Envoyer" class="btn btn-lg btn-primary">Envoyer</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+  </section>
+
+
+
+
+
   <div class="md:container mx-auto md:px-6 lg:px-8 grid md:grid-cols-2 xl:grid-cols-3 gap-y-12 md:gap-x-8 pb-16 md:pt-16">
     {% for post in posts %}
     <article>
@@ -63,6 +131,17 @@
       </div>
     </article>
     {% endfor %}
+
   </div>
+
+
+  
+
+
+
+
+<hr>
+{% include "includes/footer.html" %}
+  
 </body>
 </html>

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ post.title }} | Square</title>
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -49,11 +50,12 @@
     <article>
       <img class="w-full" src="/img/{{ post.img }}" alt="{{ post.img }}">
       <div class="px-4 sm:px-6 md:px-0">
-        {% if auth().checkIsAdmin() %}
+        {% if auth().check() %}
         <div x-data="{ modal: false }" x-cloak class="flex space-x-4 mt-6">
           <a href="{{ route('posts.edit', {slug: post.slug}) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Modifier le post
           </a>
+          
           <button @click="modal = true" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Supprimer le post
           </button>
@@ -168,5 +170,7 @@
       </div>
     </div>
   </div>
+  <hr>
+  {% include "includes/footer.html" %}
 </body>
 </html>
