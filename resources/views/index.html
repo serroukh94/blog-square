@@ -71,7 +71,7 @@
     <div class="container list-inline text-center">
       <div class="d-flex justify-content-center">
           <div class="col-8 m-4">
-              <form action="{{ route('index') }}" method="POST">
+              <form action="{{ route('index.form') }}" method="POST">
                   <div class="form-group">
                       <div class="text-center">
                         <h2 class="mt-28 lg:mt-36 text-xl sm:text-xl xl:text-xl xl:leading-tight lg:text-center font-bold">
@@ -111,9 +111,17 @@
     <article>
       <img src="/img/{{ post.img }}" alt="{{ post.img }}" class="w-full">
       <div class="px-4 sm:px-6 md:px-0">
+        <time datetime="{{ post.created_at }}" class="block mt-6 font-normal text-sm text-gray-700">
+          Publié le {{ post.created_at|date('d/m/Y à H:i') }}
+        </time>
         <h1 class="mt-4 text-2xl sm:text-3xl md:text-2xl font-bold text-gray-900">
           <a href="{{ route('posts.show', {slug: post.slug}) }}">{{ post.title }}</a>
         </h1>
+
+        <h2 class="mt-4 text-xl sm:text-xl md:text-xl font-bold text-gray-700">
+          <a href="{{ route('posts.show', {slug: post.slug}) }}">{{ post.chapô }}</a>
+        </h2>
+
         <ul class="mt-6 flex space-x-8 font-bold text-sm text-gray-700">
           <li class="flex items-center leading-none">
             <svg class="stroke-current w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

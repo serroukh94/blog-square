@@ -26,6 +26,7 @@ return [
            
            // blog
      'index' => Route::get('/', [PostController::class, 'index']),
+     'index.form' => Route::get('/form', [PostController::class, 'form']),
      'posts.create' => Route::get('/posts/creer', [PostController::class, 'create']),  
      'posts.store' => Route::post('/posts/creer', [PostController::class, 'store']) ,      
      'posts.show' => Route::get('/posts/{slug}', [PostController::class, 'show']),      

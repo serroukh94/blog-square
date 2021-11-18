@@ -42,6 +42,19 @@
             <p class="mt-2 text-sm text-red-600">{{ errors('title')[0] }}</p>
             {% endif %}
           </div>
+
+          <div class="sm:col-span-4">
+            <label for="chapô" class="block text-sm font-medium text-gray-700">
+              chapô 
+            </label>
+            <div class="mt-1">
+              <textarea id="chapô" name="chapô" rows="3" class="block w-full sm:text-sm rounded-md shadow-sm {% if errors('chapô') %}border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500{% else %}focus:ring-indigo-500 focus:border-indigo-500 border-gray-300{% endif %}">{{ old('chapô', post.chapô) }}</textarea>
+            </div>
+            {% if errors('chapô') %}
+            <p class="mt-2 text-sm text-red-600">{{ errors('chapô')[0] }}</p>
+            {% endif %}
+          </div>
+
           
           <div class="sm:col-span-6">
             <label for="post" class="block text-sm font-medium text-gray-700">

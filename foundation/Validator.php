@@ -40,7 +40,7 @@ class Validator
         // on va verifier le fichier qui etait uploader est bien une image  
         $validator->addRule('image', function (string $field, mixed $value, array $params, array $fields) {  
             if (isset($_FILES[$field]) && $_FILES[$field]['error'] === UPLOAD_ERR_OK) {
-                return str_starts_with($_FILES[$field]['type'], 'image/'); //  la fonction 'str_starts_with' verifier que le type commence boen par 'image/' 
+                return str_starts_with($_FILES[$field]['type'], 'image/'); //  la fonction 'str_starts_with' verifier que le type commence bien par 'image/' 
             }
             return false;   // si jamais le fichier n'as pas correctement etait uploader dans ce cas la on retrun 'false'
         }, '{field} doit être une image');

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;   
 
+use App\Classes\Mail;
 use App\Models\Comment;
 use App\Models\Post;
 use Cocur\Slugify\Slugify;
@@ -22,6 +23,26 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             'posts' => $posts,
         ]);
     }
+
+    public function form(): void    {
+
+    
+    {
+        if (!Auth::check()) {       
+            $this->redirect('login.form');   
+        }
+
+        View::render('views.index');  
+    }
+
+    {
+        $mail = new Mail();
+        $mail-> send("serroukh94@gmail.com", "mohamed", 'essai'
+        , "essi");
+        
+    };
+   }
+    
 
     public function show(string $slug): void
     {
@@ -97,7 +118,9 @@ class PostController extends AbstractController  //  c'est une classe parent, do
         $validator = Validator::get($_POST + $_FILES);   
         $validator->mapFieldsRules([
             'title' => ['required', ['lengthMin', 3]],  // titre d'article
+            'chapô' => ['required', ['lengthMin', 3]],  
             'post' => ['required', ['lengthMin', 3]],   // contenue de l'article
+            
             'file' => ['required_file', 'image', 'square'],  // on va pouvoir recuperer les differentes valeur en lien avec les fichiers uploader a l'aide de la '$_FILES'. square = carré
         ]);
 
@@ -119,10 +142,10 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             $_FILES['file']['tmp_name'],
             sprintf('%s/public/img/%s', ROOT, $filename)
         )) {
-            Session::addFlash(Session::ERRORS, ['file' => [
+            Session::addFlash(Session::ERRORS, ['file' => [   // si l'upload passe mal
                 'Il y a eu un problème lors de l\'envoi. Retentez votre chance !',
             ]]);
-            Session::addFlash(Session::OLD, $_POST);
+            Session::addFlash(Session::OLD, $_POST);  // on ajoute les valeurs de nos champs pour remplir le formulaire 
             $this->redirect('posts.create');
         }
 
@@ -130,6 +153,7 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             'user_id' => Auth::id(),    // le 'user_id' on va le recuperer a l'aide de la classe authentication puisque qu'on a une methode 'id' qui permet de recuperer l'identifiant de l'utilisateur  actuellement authentifier 
             'title' => $_POST['title'], // pour le title ca sera contenue dans la $_POST. 
             'slug' => $slug,            // le slug c'est le contenue de la variable slug
+            'chapô'=> $_POST['chapô'],
             'body' => $_POST['post'],   // le body c'est contenue dans la la $_POST.
             'reading_time' => ceil(str_word_count($_POST['post']) / 238),  
             'img' => $filename,         //  l'image on indique le nom final de fichier qui est contenue dans le dossier img  dans le dossier public
@@ -169,21 +193,23 @@ class PostController extends AbstractController  //  c'est une classe parent, do
         $validator = Validator::get($_POST);
         $validator->mapFieldsRules([
             'title' => ['required', ['lengthMin', 3]],
+            'chapô' => ['required', ['lengthMin', 3]],
             'post' => ['required', ['lengthMin', 3]],
         ]);
 
-        if (!$validator->validate()) {
-            Session::addFlash(Session::ERRORS, $validator->errors());
+        if (!$validator->validate()) {    // on va verifier si il 'y a un probleme lors de la validation 
+            Session::addFlash(Session::ERRORS, $validator->errors());     
             Session::addFlash(Session::OLD, $_POST);
             $this->redirect('posts.edit', ['slug' => $post->slug]);
         }
 
-        $post->fill([
+        $post->fill([     // avec l'orm eloquant pour faire une mise a jour, on a utilisé la methode 'fill' qui va prendre un tableau des différents champ qu'on souhaite modifier 
             'title' => $_POST['title'],
+            'chapô'=> $_POST['chapô'],
             'body' => $_POST['post'],
             'reading_time' => ceil(str_word_count($_POST['post']) / 238),
         ]);
-        $post->save();
+        $post->save();  // une fois qu'on a indiqué ce qu'on souhaite mettre a jour, on a utilisé la methode 'save'  pour  la validation.
 
         Session::addFlash(Session::STATUS, 'Votre post a été mis à jour !');
         $this->redirect('posts.show', ['slug' => $post->slug]);
