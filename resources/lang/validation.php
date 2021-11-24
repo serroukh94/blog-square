@@ -13,6 +13,9 @@ return[
     'post'  => 'Le corps du post',
     'file'  => 'Le fichier',
     'comment' => 'Le commentaire',
+    'surname' => 'le nom de famille',
+    'firstname' => 'le prenom',
+    'message' => 'le message',
 
 
 ];

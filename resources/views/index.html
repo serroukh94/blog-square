@@ -66,41 +66,83 @@
 
   
 
-  <section>
-    
-    <div class="container list-inline text-center">
-      <div class="d-flex justify-content-center">
-          <div class="col-8 m-4">
-              <form action="{{ route('index.form') }}" method="POST">
-                  <div class="form-group">
-                      <div class="text-center">
-                        <h2 class="mt-28 lg:mt-36 text-xl sm:text-xl xl:text-xl xl:leading-tight lg:text-center font-bold">
-                          Contact
-                       </h2>
-                      </div>
-                      <div class="d-flex">
-                        
+  
+<section>
+  
+      
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
 
-
-                        <input type="text" name="surname" placeholder="Nom" autocomplete="off" class="form-control"/>
-                          <input type="text" name="firstname" placeholder="Prénom" autocomplete="off" class="form-control"/>
-
-                      </div>
-                      <br/>
-                      
-                      
-                      <input type="email" name="email" placeholder="Email" autocomplete="off" class="form-control"/>
-                      <br/> 
-                    
-                      <textarea rows="10" name="message" placeholder="Votre message" class="form-control"></textarea>
-                      <br/> 
-                      <button type="submit" value="Envoyer" class="btn btn-lg btn-primary">Envoyer</button>
-                  </div>
-              </form>
+      {% if errors() %}
+      <div class="rounded-md bg-red-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
           </div>
+          <div class="ml-3">
+           <ul class="list-disc pl-5 space-y-1">
+
+            <li>
+          <p class="text-sm font-medium text-red-800">
+            {{ errors()[0] }}       <!--recuperer l'erreur dans son tableau avec la fonction 'errors', du coup on accedera au premiere element du tableau qui sera le seul donc on le recupére comme ce ci avec cette ligne de code  -->
+          </p>
+            </li>
+
+            <li>
+        <p class="text-sm font-medium text-red-800">
+            {{ errors()[1] }}       <!--recuperer l'erreur dans son tableau avec la fonction 'errors', du coup on accedera au premiere element du tableau qui sera le seul donc on le recupére comme ce ci avec cette ligne de code  -->
+          </p>
+            </li>
+
+            <li>
+         <p class="text-sm font-medium text-red-800">
+            {{ errors()[2] }}       <!--recuperer l'erreur dans son tableau avec la fonction 'errors', du coup on accedera au premiere element du tableau qui sera le seul donc on le recupére comme ce ci avec cette ligne de code  -->
+         </p>
+            </li>    
+
+            <li>
+          <p class="text-sm font-medium text-red-800">
+              {{ errors()[3] }}       <!--recuperer l'erreur dans son tableau avec la fonction 'errors', du coup on accedera au premiere element du tableau qui sera le seul donc on le recupére comme ce ci avec cette ligne de code  -->
+          </p>
+            </li>  
+            
+           </ul>
+          </div>
+          
+        </div>
       </div>
+      {% endif %}
+
+
+
+
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Contact
+      </h2>
+      <form action="{{ route('index.form') }}" method="POST" class="flex flex-col space-y-6" novalidate>
+        <div class="rounded-md shadow-sm -space-y-px">
+          {{ csrf_field() |raw }}      <!--on va mettre notre champ csrf car on va etre sur une methode 'post' donc c'est obligatoire si non on va se recuperer une erreur au niveau de notre framework.  on utilise le filtre 'raw' pour bien venir interpreter le html qui va etre rendu ici par csrf_field-->
+          <input name="surname" type="text" value="{{ old('surname') }}" placeholder="Nom" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          <input name="firstname" type="text" value="{{ old('firstname') }}" placeholder="Prénom" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          <input name="email" type="email" value="{{ old('email') }}" placeholder="Adresse e-mail" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+          
+          <textarea rows="6" name="message" placeholder="Votre message" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" ></textarea>
+        </div>
+        <button type="submit" class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Envoyer
+        </button>
+      </form>
+    </div>
   </div>
-  </section>
+
+</section>
+
+
+
+
+  
 
 
 

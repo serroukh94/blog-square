@@ -51,7 +51,7 @@ class App
 
     protected function initDatabase(): void           // on va initialiser notre gestion de BDD 
 
-    {   //on va commencer par faire pour pouvoir utiliser notre dependance 'illuminate/database' pour venir ensuite generer nos BDD avec l'ORM eloquent et bien ca va etre de creer une nouvelle instance de la classe manager alliacé avec le nom capsule 
+    {   //on va commencer par faire pour pouvoir utiliser notre dependance 'illuminate/database' pour venir ensuite generer nos BDD avec l'ORM eloquent et bien ca va etre de creer une nouvelle instance de la classe manager alliancé avec le nom capsule 
 
         date_default_timezone_set(config::get('app.timezone'));  
         $capsule = new Capsule();                             //  j'ai fait la meme chose que sur la documentation 
