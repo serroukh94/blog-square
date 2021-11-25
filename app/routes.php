@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 use App\Controllers\AuthController;
-use App\Controllers\BaseController;
+use App\Controllers\ContactController;
 use App\Controllers\HomeController;
 use App\Controllers\PostController;
 use Ben\Foundation\Router\Route;
@@ -26,7 +26,7 @@ return [
            
            // blog
      'index' => Route::get('/', [PostController::class, 'index']),
-     'index.form' => Route::post('/', [PostController::class, 'form']),
+     'index.form' => Route::post('/', [ContactController::class, 'form']),
      'posts.create' => Route::get('/posts/creer', [PostController::class, 'create']),  
      'posts.store' => Route::post('/posts/creer', [PostController::class, 'store']) ,      
      'posts.show' => Route::get('/posts/{slug}', [PostController::class, 'show']),      

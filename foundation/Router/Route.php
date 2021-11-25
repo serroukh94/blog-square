@@ -9,9 +9,9 @@ class Route   // on va indiquer a notre classe route toutes les methodes http qu
 {
     public const HTTP_METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];   //  on va renseigner dans un 1er temp la constante HTTP_METHODS  (Patch c'est pour mettre a jour)
 
-    public static function __callStatic(string $httpMethod, array $arguments): SymfonyRoute   
+    public static function __callStatic(string $httpMethod, array $arguments): SymfonyRoute     
     {
-        if (!in_array(strtoupper($httpMethod), static::HTTP_METHODS)) {     //  on a utiliser la fonction in_array  pour verifier si une valeur est bel et bien  dans un tableau ou non si il y est ca nous retourne boolean true si il n'y est pas ca nous retourne false
+        if (!in_array(strtoupper($httpMethod), static::HTTP_METHODS)) {     //  on a utiliser la fonction in_array  pour verifier si une valeur est  bien  dans un tableau ou non si il y est ca nous retourne boolean true si il n'y est pas ca nous retourne false
             throw new \BadMethodCallException(
                 sprintf('Méthode HTTP indisponible (%s)', $httpMethod)
             );
