@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Comment extends Model
 {
     protected $fillable = [
-        'body', 'user_id', 'post_id',
+        'body', 'user_id', 'post_id', 'validated'
     ];
 
     public function user(): BelongsTo   // la relation 'BelongsTo' va me permettre de recuperer l'entrée dans la table users grace a 'user_id' qui est contenue dans ma table comment 

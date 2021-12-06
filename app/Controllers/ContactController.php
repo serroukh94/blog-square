@@ -12,13 +12,11 @@ use Ben\Foundation\View;
 class ContactController extends AbstractController {
 
     public function form(): void    {
-
-    
         {
             if (!Auth::check()) {       
                 $this->redirect('login.form');   
             }
-    
+            
             $validator = Validator::get($_POST);     
             $validator->mapFieldsRules([   
                 'surname'   => ['required', ['lengthMin', 5]],  
@@ -43,6 +41,10 @@ class ContactController extends AbstractController {
             , "essi");
             
         };
+
+        
+        Session::addFlash(Session::STATUS, 'Email envoyé avec succès !');
+
        }
 
 

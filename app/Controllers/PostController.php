@@ -3,7 +3,6 @@
 namespace App\Controllers;   
 
 
-
 use App\Models\Comment;
 use App\Models\Post;
 use Cocur\Slugify\Slugify;
@@ -19,10 +18,8 @@ class PostController extends AbstractController  //  c'est une classe parent, do
 {
     public function index(): void
     {
-        $posts = Post::withCount('comments')->orderBy('id', 'desc')->get();   // la methode 'withCount' va me permettre de recuperer le nombre (un entier) d'entrée de la table comment qui sont concernée par la relation que j'ai créer
-        View::render('index', [     
-            'posts' => $posts,
-        ]);
+        
+        View::render('index');
     }
     
 
@@ -61,7 +58,9 @@ class PostController extends AbstractController  //  c'est une classe parent, do
         Comment::create([           // pour creer notre nouveau commentaire
             'body' => $_POST['comment'],   // on a indiquer POST comment 
             'user_id' => Auth::id(),      // on utiliser notre classe auth et sa methode id pour recuperer l'identifiant 
-            'post_id' => $post->id,       
+            'post_id' => $post->id,
+            
+            
         ]);
 
         Session::addFlash(Session::STATUS, 'Votre commentaire a été publié !');
@@ -136,7 +135,7 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             'title' => $_POST['title'], // pour le title ca sera contenue dans la $_POST. 
             'slug' => $slug,            // le slug c'est le contenue de la variable slug
             'chapô'=> $_POST['chapô'],
-            'body' => $_POST['post'],   // le body c'est contenue dans la la $_POST.
+            'body' => $_POST['post'],   // le body c'est contenue dans la $_POST.
             'reading_time' => ceil(str_word_count($_POST['post']) / 238),  
             'img' => $filename,         //  l'image on indique le nom final de fichier qui est contenue dans le dossier img  dans le dossier public
         ]);

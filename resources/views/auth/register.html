@@ -28,7 +28,7 @@
         </p>
       </div>
 
-     {% if errors() %}        <!-- (% symbole de modulo -> de division c'est pour recuperer le reste) on utiliser la fonction errors pour recuperer ce quelle retourne, donc si jamais on a un tableau avec du contenue pour les erreurs et bien ca veut dire on affichera ce blog   --> 
+     {% if errors() %}        <!-- (% symbole de modulo -> de division c'est pour recuperer le reste) on a utiliser la fonction errors pour recuperer ce quelle retourne, donc si jamais on a un tableau avec du contenue pour les erreurs et bien ca veut dire on affichera ce blog   --> 
       <div class="rounded-md bg-red-50 p-4 text-sm text-red-700">
         <ul class="list-disc pl-5 space-y-1">
           {% for error in errors() %}    <!--on a suprimer une de "li" et donc la on va pouvoir utiliser l'equivalent de Foreach avec twig et donc ca va etre un For, on indiquer le nom "error" de la variable dans laquelle on souhaite stocker l'element de tableau qu'on va recuperer, apres on a indiquer "in" et ensuite on a indiquer la source de tableau en question, donc nous le tableau on recupere avec la fonction errors  -->

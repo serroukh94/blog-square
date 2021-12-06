@@ -4,6 +4,7 @@ use App\Controllers\AuthController;
 use App\Controllers\ContactController;
 use App\Controllers\HomeController;
 use App\Controllers\PostController;
+use App\Controllers\ArticlesController;
 use Ben\Foundation\Router\Route;
 
 return [ 
@@ -25,15 +26,22 @@ return [
 
            
            // blog
-     'index' => Route::get('/', [PostController::class, 'index']),
-     'index.form' => Route::post('/', [ContactController::class, 'form']),
+     'index'        => Route::get('/', [PostController::class, 'index']),
+     'index.form'   => Route::post('/', [ContactController::class, 'form']),
      'posts.create' => Route::get('/posts/creer', [PostController::class, 'create']),  
-     'posts.store' => Route::post('/posts/creer', [PostController::class, 'store']) ,      
-     'posts.show' => Route::get('/posts/{slug}', [PostController::class, 'show']),      
-     'posts.comment' => Route::post('/posts/{slug}', [PostController::class, 'comment']),      
+     'posts.store'  => Route::post('/posts/creer', [PostController::class, 'store']) ,      
+     'posts.show'   => Route::get('/posts/{slug}', [PostController::class, 'show']),      
+     'posts.comment'=> Route::post('/posts/{slug}', [PostController::class, 'comment']),      
      'posts.delete' => Route::delete('/posts/{slug}', [PostController::class, 'delete']),      
-     'posts.edit' => Route::get('/posts/{slug}/modifier', [PostController::class, 'edit']),      
+     'posts.edit'   => Route::get('/posts/{slug}/modifier', [PostController::class, 'edit']),      
      'posts.update' => Route::patch('/posts/{slug}/modifier', [PostController::class, 'update']),
+     
+
+     
+     'article'      => Route::get('/posts', [ArticlesController::class, 'articlePage']),
+
+
+     
      
      
      

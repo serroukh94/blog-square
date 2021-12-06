@@ -17,7 +17,9 @@
     "autoload": {
         "psr-4": {
             "Ben\\Foundation\\": "./foundation",
-            "App\\":"./app" 
+            "App\\":"./app",
+            "App\\Classes\\":"./app/Classes"
+
         },
         "files": [
             "./functions/twig.php"
