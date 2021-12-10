@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Builder;
 use Ben\Foundation\AbstractController;
 use Ben\Foundation\Authentication as auth;
 use Ben\Foundation\Exceptions\HttpException;
@@ -43,7 +44,13 @@ class PostController extends AbstractController  //  c'est une classe parent, do
         }
 
         $post = Post::where('slug', $slug)->firstOrFail();
+        
+        
+      
+        
+        
 
+        
         $validator = Validator::get($_POST);
         $validator->mapFieldsRules([
             'comment' => ['required', ['lengthMin', 3]],
@@ -56,16 +63,21 @@ class PostController extends AbstractController  //  c'est une classe parent, do
         }
 
         Comment::create([           // pour creer notre nouveau commentaire
-            'body' => $_POST['comment'],   // on a indiquer POST comment 
-            'user_id' => Auth::id(),      // on utiliser notre classe auth et sa methode id pour recuperer l'identifiant 
-            'post_id' => $post->id,
-            
+            'body'        => $_POST['comment'],   // on a indiquer POST comment 
+            'user_id'     => Auth::id(),      // on utiliser notre classe auth et sa methode id pour recuperer l'identifiant 
+            'post_id'     => $post->id,
             
         ]);
 
         Session::addFlash(Session::STATUS, 'Votre commentaire a été publié !');
         $this->redirect('posts.show', ['slug' => $slug]);
     }
+
+
+
+   
+
+
 
     public function delete(string $slug)
     {
