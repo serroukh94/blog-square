@@ -46,11 +46,6 @@ class PostController extends AbstractController  //  c'est une classe parent, do
         $post = Post::where('slug', $slug)->firstOrFail();
         
         
-      
-        
-        
-
-        
         $validator = Validator::get($_POST);
         $validator->mapFieldsRules([
             'comment' => ['required', ['lengthMin', 3]],
@@ -66,12 +61,16 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             'body'        => $_POST['comment'],   // on a indiquer POST comment 
             'user_id'     => Auth::id(),      // on utiliser notre classe auth et sa methode id pour recuperer l'identifiant 
             'post_id'     => $post->id,
+            'is_approved' => true,
             
         ]);
 
         Session::addFlash(Session::STATUS, 'Votre commentaire a été publié !');
         $this->redirect('posts.show', ['slug' => $slug]);
     }
+
+
+   
 
 
 
