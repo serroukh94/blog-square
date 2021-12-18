@@ -27,13 +27,15 @@ class PostController extends AbstractController  //  c'est une classe parent, do
     public function show(string $slug): void
     {
         try {
-            $post = Post::withCount('comments')->where('slug', $slug)->firstOrFail(); // on va recuperer pour le post le nombre des commentaires 
+            $post = Post::withCount('comments')->where('slug', $slug)->firstOrFail(); // on va recuperer pour le post le nombre des commentaires
+            $comments = Comment::where('post_id',$post->id)->where('is_approved',1)->get(); 
         } catch (ModelNotFoundException) {
             HttpException::render();
         }
 
         View::render('posts.show', [
             'post' => $post,
+            'comments' => $comments
         ]);
     }
 
@@ -61,11 +63,11 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             'body'        => $_POST['comment'],   // on a indiquer POST comment 
             'user_id'     => Auth::id(),      // on utiliser notre classe auth et sa methode id pour recuperer l'identifiant 
             'post_id'     => $post->id,
-            'is_approved' => true,
+            'is_approved' => false,
             
         ]);
 
-        Session::addFlash(Session::STATUS, 'Votre commentaire a été publié !');
+        Session::addFlash(Session::STATUS, 'Votre commentaire a été envoyé, merci de patientez pour la validation !');
         $this->redirect('posts.show', ['slug' => $slug]);
     }
 
@@ -218,6 +220,11 @@ class PostController extends AbstractController  //  c'est une classe parent, do
             $unique_slug = sprintf('%s-%s', $slug, $i++);    // mettre a jour le 'slug' pour qu'il soit unique 
         }
         return $unique_slug;
+    }
+
+
+    public function commentsList(){
+        dd('check');
     }
  
     

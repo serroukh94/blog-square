@@ -160,6 +160,7 @@
       {% endif %}
       <div class="mt-10 sm:mt-14 space-y-8">
         {% for comment in post.comments %}
+        {% if comment.is_approved == 1 %}
         <div class="flex space-x-3">
           <img src="{{ gravatar (comment.user.email) }}" alt="{{ gravatar (comment.user.email) }}" class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
           <div>
@@ -172,6 +173,7 @@
             </time>
           </div>
         </div>
+        {% endif %}
         {% endfor %}
       </div>
     </div>
